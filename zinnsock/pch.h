@@ -1,5 +1,6 @@
 #pragma once
 #pragma comment(lib, "ws2_32")
+#pragma comment(lib, "mswsock.lib")
 
 #include <iostream>
 #include <assert.h>
@@ -11,6 +12,7 @@
 #include <winsock.h>
 #include <mswsock.h>
 #include <vector>
+#include <format>
 #include "define.h"
 
 #include <unordered_set>

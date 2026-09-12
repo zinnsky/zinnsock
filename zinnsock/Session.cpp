@@ -97,6 +97,21 @@ SessionContext* Session::GetContext(EventType type)
 	}
 }
 
+sockaddr_in* Session::GetRemoteAddr()
+{
+	size_t cbInitialRecvLen = 0;
+	size_t cbLocalAddr = sizeof(sockaddr_in) + 16; // 32바이트
+
+	return reinterpret_cast<sockaddr_in*>(_acceptBuffer + cbInitialRecvLen + cbLocalAddr);
+}
+
+sockaddr_in* Session::GetLocalAddr()
+{
+	size_t cbInitialRecvLen = 0;
+
+	return reinterpret_cast<sockaddr_in*>(_acceptBuffer + cbInitialRecvLen);
+}
+
 void Session::SetId(uint32 id)
 {
 	_id = id;
@@ -105,5 +120,16 @@ void Session::SetId(uint32 id)
 uint32 Session::GetId()
 {
 	return _id;
+}
+
+string Session::ToString()
+{
+	sockaddr_in* pRemoteAddr = GetRemoteAddr();
+
+	char clientIP[INET_ADDRSTRLEN] = { 0 };
+	inet_ntop(AF_INET, &(pRemoteAddr->sin_addr), clientIP, INET_ADDRSTRLEN);
+	int clientPort = ntohs(pRemoteAddr->sin_port);
+
+	return std::format("Client IP:{} PORT:{}", clientIP, clientPort);
 }
 

@@ -70,10 +70,12 @@ DWORD ProcessIoCompletion(LPVOID param)
 
 void DoAccept(Session* session, DWORD dwBytes)
 {
-	// 연결이 생성되면, 해당 소켓을 ACCEPT 상태로 갱신한다.
+	// 연결이 생성되면, 해당 소켓을 ACCEPT 상태로 갱신.
 	::setsockopt(session->_socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&session->_listener, sizeof(SOCKET));
 
-	cout << "ACCEPTED" << endl;
+	std::cout << "ACCEPTED and " << dwBytes << " bytes received." << std::endl;
+	std::cout << "New Client: " << session->ToString() << std::endl;
+
 	session->RegisterRecv();
 }
 

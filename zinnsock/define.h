@@ -11,7 +11,7 @@
 #define CLIENT_HEIGHT		768
 #define MAP_WIDTH			1920
 #define MAP_HEIGHT			1024
-#define PORT				60000
+#define PORT				12345
 
 using int64 = __int64;
 using int32 = __int32;

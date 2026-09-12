@@ -12,13 +12,18 @@ public:
 	void RegisterSend(packet* data);
 	void RegisterRecv();
 	void Close();
-
+	
 	void SetOwner(ServerService* owner);
 	ServerService* GetOwner();
 	SessionContext* GetContext(EventType type);
 
+	sockaddr_in* GetRemoteAddr();
+	sockaddr_in* GetLocalAddr();
+
 	void SetId(uint32 id);
 	uint32 GetId();
+
+	string ToString();
 
 public:
 	uint32			_id = 0;
@@ -29,7 +34,7 @@ public:
 
 	BYTE			_recvBuffer[1024] = { 0 };
 	BYTE			_sendBuffer[1024] = { 0 };
-
+	BYTE			_acceptBuffer[64] = { 0 };
 	SessionContext* _recvContext = new SessionContext(EventType::Recv);
 	SessionContext* _sendContext = new SessionContext(EventType::Send);
 	SessionContext* _acceptContext = new SessionContext(EventType::Accept);

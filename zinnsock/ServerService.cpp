@@ -50,8 +50,8 @@ bool ServerService::Accept(Session* session) {
 	bool ret = _AcceptEx(
 		_listenSocket,
 		session->_socket,
-		&session->_recvBuffer,
-		sizeof(session->_recvBuffer) - sizeof(sockaddr_in) * 2 - 32,
+		session->_acceptBuffer,
+		0, // sizeof(session->_acceptBuffer) - sizeof(sockaddr_in) * 2, 에서 0으로 변경
 		sizeof(sockaddr_in) + 16,
 		sizeof(sockaddr_in) + 16,
 		NULL,

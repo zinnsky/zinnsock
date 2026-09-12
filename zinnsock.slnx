@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="zinnsock/zinnsock.vcxproj" />
+  <Project Path="zinnsock/zinnsock.vcxproj" Id="2880f6a5-f782-43a4-86fd-93f6e76b0d0f" />
 </Solution>
