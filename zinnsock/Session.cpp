@@ -17,6 +17,7 @@ Session::~Session()
 {
 	delete _sendContext;
 	delete _recvContext;
+	delete _acceptContext;
 }
 
 void Session::Init()
@@ -130,6 +131,6 @@ string Session::ToString()
 	inet_ntop(AF_INET, &(pRemoteAddr->sin_addr), clientIP, INET_ADDRSTRLEN);
 	int clientPort = ntohs(pRemoteAddr->sin_port);
 
-	return std::format("Client IP:{} PORT:{}", clientIP, clientPort);
+	return std::format("{}:{}", clientIP, clientPort);
 }
 

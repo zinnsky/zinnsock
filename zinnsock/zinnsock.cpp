@@ -17,6 +17,7 @@ int main()
 
 	server.Init();
 	server.RunWorkers((_beginthreadex_proc_type)ProcessIoCompletion);
+
 	server.Join();
 	server.Close();
 
@@ -71,10 +72,10 @@ DWORD ProcessIoCompletion(LPVOID param)
 void DoAccept(Session* session, DWORD dwBytes)
 {
 	// 연결이 생성되면, 해당 소켓을 ACCEPT 상태로 갱신.
-	::setsockopt(session->_socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&session->_listener, sizeof(SOCKET));
+	SOCKET listener = session->GetListenSocket();
+	::setsockopt(session->GetSocket(), SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&listener, sizeof(SOCKET));
 
-	std::cout << "ACCEPTED and " << dwBytes << " bytes received." << std::endl;
-	std::cout << "New Client: " << session->ToString() << std::endl;
+	std::cout << "[ACCEPT]" << dwBytes << " bytes received from " << session->ToString() << std::endl;
 
 	session->RegisterRecv();
 }
@@ -83,13 +84,13 @@ void DoAccept(Session* session, DWORD dwBytes)
 void DoReceive(Session* session, DWORD dwBytes)
 {
 	ServerService* service = session->GetOwner();
+	BYTE* recvBuff = session->GetRecvBuffer();
+	packet data{ 0 };
+	::memcpy(&data.length, recvBuff, 4);
+	::memcpy(&data.id, recvBuff + 4, 4);
+	::memcpy(&data.data, recvBuff + 8, 4);
 
-	packet* data = new packet();
-	::memcpy(&data->length, session->_recvBuffer, 4);
-	::memcpy(&data->id, session->_recvBuffer + 4, 4);
-	::memcpy(&data->data, session->_recvBuffer + 8, 4);
-
-	cout << dwBytes << " bytes received: " << std::endl;
+	std::cout << dwBytes << " bytes received: " << std::endl;
 
 	if (dwBytes == 0) {
 		std::cout << "Closing session id: " << session->GetId() << std::endl;

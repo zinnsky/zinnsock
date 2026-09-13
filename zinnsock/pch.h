@@ -12,6 +12,7 @@
 #include <winsock.h>
 #include <mswsock.h>
 #include <vector>
+#include <sstream>
 #include <format>
 #include "define.h"
 

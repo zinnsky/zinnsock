@@ -70,7 +70,6 @@ vector<HANDLE>& Server::GetWorkers()
 }
 
 
-
 void Server::Join()
 {
 	vector<HANDLE> threads = GetWorkers();
@@ -82,4 +81,9 @@ void Server::Close()
 {
 	_bRunning = false;
 	_service->Close();
+}
+
+string Server::ToString()
+{
+	return _service->ToString();
 }

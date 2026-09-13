@@ -49,13 +49,13 @@ void ServerService::InitIocp()
 bool ServerService::Accept(Session* session) {
 	bool ret = _AcceptEx(
 		_listenSocket,
-		session->_socket,
-		session->_acceptBuffer,
+		session->GetSocket(),
+		session->GetAcceptBuffer(),
 		0, // sizeof(session->_acceptBuffer) - sizeof(sockaddr_in) * 2, 에서 0으로 변경
 		sizeof(sockaddr_in) + 16,
 		sizeof(sockaddr_in) + 16,
 		NULL,
-		(LPOVERLAPPED)session->_acceptContext
+		(LPOVERLAPPED)session->GetContext(EventType::Accept)
 	);
 
 	return ret;
@@ -133,4 +133,26 @@ void ServerService::AddWorker(HANDLE hthread)
 HANDLE ServerService::GetHandle()
 {
 	return _iocpHandle;
+}
+
+string ServerService::ToString()
+{
+	char ip[INET_ADDRSTRLEN];
+	InetNtopA(AF_INET, &_addr.sin_addr, ip, INET_ADDRSTRLEN);
+
+	std::stringstream ss;
+
+	ss << ip << ":" << ntohs(_addr.sin_port) << "\n";
+
+	ss << R"(
+		=================================
+		============Sessions=============
+		=================================
+		)" << "\n";
+
+	for (auto session : _sessions) {
+		ss << ">> " << session->ToString() << "\n";
+	}
+
+	return ss.str();
 }

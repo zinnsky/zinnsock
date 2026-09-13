@@ -17,6 +17,15 @@ public:
 	ServerService* GetOwner();
 	SessionContext* GetContext(EventType type);
 
+	SOCKET GetListenSocket() {return _listener;};
+	SOCKET GetSocket() {return _socket;}
+
+	bool GetAccepted() { return _accepted;}
+
+	BYTE* GetRecvBuffer() { return _recvBuffer; }
+	BYTE* GetSendBuffer() { return _sendBuffer; }
+	BYTE* GetAcceptBuffer() { return _acceptBuffer; }
+
 	sockaddr_in* GetRemoteAddr();
 	sockaddr_in* GetLocalAddr();
 
@@ -25,7 +34,7 @@ public:
 
 	string ToString();
 
-public:
+private:
 	uint32			_id = 0;
 	ServerService* _owner = nullptr;
 	SOCKET			_socket = NULL;
@@ -39,6 +48,7 @@ public:
 	SessionContext* _sendContext = new SessionContext(EventType::Send);
 	SessionContext* _acceptContext = new SessionContext(EventType::Accept);
 
+	bool _accepted = false;
 };
 
 

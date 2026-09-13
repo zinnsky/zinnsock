@@ -25,6 +25,7 @@ public:
 
 
     HANDLE GetHandle();
+    string ToString();
 
 
     HANDLE              _iocpHandle = NULL;

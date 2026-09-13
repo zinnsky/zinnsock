@@ -22,6 +22,8 @@ public:
 	void AddWorker(HANDLE hthread);
 	vector<HANDLE>& GetWorkers();
 
+	std::string ToString();
+
 public:
 	ServerService* _service = new ServerService();
 	bool			_bRunning = true;
