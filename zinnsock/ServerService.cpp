@@ -142,16 +142,14 @@ string ServerService::ToString()
 
 	std::stringstream ss;
 
+	ss << "[ServerService]" << "\n";
+
 	ss << ip << ":" << ntohs(_addr.sin_port) << "\n";
 
-	ss << R"(
-		=================================
-		============Sessions=============
-		=================================
-		)" << "\n";
+	ss << "[Sessions]" << "\n";
 
 	for (auto session : _sessions) {
-		ss << ">> " << session->ToString() << "\n";
+		ss << "> " << session->ToString() << "\n";
 	}
 
 	return ss.str();

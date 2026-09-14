@@ -18,6 +18,8 @@ int main()
 	server.Init();
 	server.RunWorkers((_beginthreadex_proc_type)ProcessIoCompletion);
 
+	std::cout << server.ToString();
+
 	server.Join();
 	server.Close();
 
